@@ -1,0 +1,60 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{a4a3fa01-9373-4368-849f-4cc438925591}</ProjectGuid>
+    <SubObjectsSortedByName>True</SubObjectsSortedByName>
+    <DownloadApplicationInfo>true</DownloadApplicationInfo>
+    <WriteProductVersion>true</WriteProductVersion>
+    <GenerateTpy>false</GenerateTpy>
+    <Name>mobject_promises</Name>
+    <ProgramVersion>3.1.4024.0</ProgramVersion>
+    <Application>{6f1e73ba-8847-4864-a3be-3da66b172525}</Application>
+    <TypeSystem>{e9fddae2-e0fb-4a66-9eba-7686f308806f}</TypeSystem>
+    <Implicit_Task_Info>{5e8f374d-7ede-45fc-a71d-79be27b33b70}</Implicit_Task_Info>
+    <Implicit_KindOfTask>{678d8f02-b4f5-4adf-b63a-65be7165dbdf}</Implicit_KindOfTask>
+    <Implicit_Jitter_Distribution>{499d7b0e-210d-4ca7-a59d-854260d6454c}</Implicit_Jitter_Distribution>
+    <LibraryReferences>{8a108f50-6478-4ec5-9f14-e628756fab5f}</LibraryReferences>
+    <Company>mobject</Company>
+    <Released>false</Released>
+    <Title>mobject-promises</Title>
+    <ProjectVersion>0.0.0</ProjectVersion>
+    <DefaultNamespace>mobject-promises</DefaultNamespace>
+    <Placeholder>mobject-promises</Placeholder>
+    <Author>mobject dev team</Author>
+    <CombineIds>true</CombineIds>
+    <LibraryCategories>
+      <LibraryCategory xmlns="">
+        <Id>{1060d52a-c0ce-4c5f-a334-01a7e2e0ab1e}</Id>
+        <Version>1.0.0.0</Version>
+        <DefaultName>mobject</DefaultName>
+      </LibraryCategory>
+    </LibraryCategories>
+    <SelectedLibraryCategories>
+      <Id xmlns="">{1060d52a-c0ce-4c5f-a334-01a7e2e0ab1e}</Id>
+    </SelectedLibraryCategories>
+  </PropertyGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_System">
+      <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
+  </ItemGroup>
+  <ProjectExtensions>
+    <PlcProjectOptions>
+      <XmlArchive>
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
+      <v n="Name">"&lt;ProjectRoot&gt;"</v>
+      <d n="SubKeys" t="Hashtable" />
+      <d n="Values" t="Hashtable" />
+    </o>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
+    </PlcProjectOptions>
+  </ProjectExtensions>
+</Project>
