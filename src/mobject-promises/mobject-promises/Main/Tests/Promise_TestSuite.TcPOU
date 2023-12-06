@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Promise_TestSuite" Id="{617144c1-3d39-4f64-af23-c9b6dd4ec3be}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Promise_TestSuite EXTENDS TcUnit.FB_TestSuite
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[TestPromisePending();
+TestPromiseReject();
+TestPromiseResolve();
+TestPromiseTryGetEntity();
+TestPromiseTryGetEntityTo();
+TestPromiseTryGetResult();
+TestPromiseTryGetResultTo();
+TestPromiseTrySetEntity();]]></ST>
+    </Implementation>
+    <Method Name="TestPromisePending" Id="{c562644f-6faa-4fb1-ac33-1769b6d5dd6f}">
+      <Declaration><![CDATA[METHOD TestPromisePending
+VAR
+	promise : Promise;
+	pendingResult : BOOL;
+	resolvedResult : BOOL;
+	rejectedResult : BOOL;
+	rejectedReason : T_MAXSTRING;
+	expectedReson : T_MAXSTRING := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromisePending');
+
+pendingResult := promise.Pending;
+resolvedResult := promise.Resolved;
+rejectedResult := promise.Rejected;
+rejectedReason := promise.RejectedReason;
+
+AssertTrue(
+	Condition := pendingResult,
+	Message := 'Incorrect state of Pending'
+);
+
+AssertFalse(
+	Condition := resolvedResult,
+	Message := 'Incorrect state of Resolved'
+);
+
+AssertFalse(
+	Condition := rejectedResult,
+	Message := 'Incorrect state of Rejected'
+);
+
+AssertEquals(
+	Expected := expectedReson,
+	Actual := rejectedReason,
+	Message := 'Incorrect reject reason'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseReject" Id="{136ec379-8842-4501-9bc1-cdcf78ead461}">
+      <Declaration><![CDATA[METHOD TestPromiseReject
+VAR
+	promise : Promise;
+	pendingResult : BOOL;
+	resolvedResult : BOOL;
+	rejectedResult : BOOL;
+	rejectedReason : T_MAXSTRING;
+	expectedReson : T_MAXSTRING := 'test message';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseReject');
+
+promise.Ctx.Reject('test message');
+
+pendingResult := promise.Pending;
+resolvedResult := promise.Resolved;
+rejectedResult := promise.Rejected;
+rejectedReason := promise.RejectedReason;
+
+AssertFalse(
+	Condition := pendingResult,
+	Message := 'Incorrect state of Pending'
+);
+
+AssertFalse(
+	Condition := resolvedResult,
+	Message := 'Incorrect state of Resolved'
+);
+
+AssertTrue(
+	Condition := rejectedResult,
+	Message := 'Incorrect state of Rejected'
+);
+
+AssertEquals(
+	Expected := expectedReson,
+	Actual := rejectedReason,
+	Message := 'Incorrect reject reason'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseResolve" Id="{f9910039-e32f-4e76-898b-10bc0c8dec95}">
+      <Declaration><![CDATA[METHOD TestPromiseResolve
+VAR
+	promise : Promise;
+	pendingResult : BOOL;
+	resolvedResult : BOOL;
+	rejectedResult : BOOL;
+	rejectedReason : T_MAXSTRING;
+	expectedReson : T_MAXSTRING := '';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseResolve');
+
+promise.Ctx.Resolve();
+
+pendingResult := promise.Pending;
+resolvedResult := promise.Resolved;
+rejectedResult := promise.Rejected;
+rejectedReason := promise.RejectedReason;
+
+AssertFalse(
+	Condition := pendingResult,
+	Message := 'Incorrect state of Pending'
+);
+
+AssertTrue(
+	Condition := resolvedResult,
+	Message := 'Incorrect state of Resolved'
+);
+
+AssertFalse(
+	Condition := rejectedResult,
+	Message := 'Incorrect state of Rejected'
+);
+
+AssertEquals(
+	Expected := expectedReson,
+	Actual := rejectedReason,
+	Message := 'Incorrect reject reason'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseTryGetEntity" Id="{2937d912-e36e-4fe1-985d-0749f1dd60f9}">
+      <Declaration><![CDATA[METHOD TestPromiseTryGetEntity
+VAR
+	promise : Promise;
+	value : T_MAXSTRING := 'myTest';
+	getResult : BOOL;
+	actualResult : T_MAXSTRING;
+	expectedResult : T_MAXSTRING := 'myTest';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseTryGetEntity');
+
+promise.Ctx.TrySetEntity('myString',value);
+getResult := promise.Ctx.TryGetEntity('myString',actualResult);
+
+AssertTrue(
+	Condition := getResult,
+	Message := 'Unable to return the context entity'
+);
+
+AssertEquals(
+	Expected := actualResult,
+	Actual := expectedResult,
+	Message := 'Incorrect returned entity from the context'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseTryGetEntityTo" Id="{96cb8249-2dc3-457b-8ecd-02e04c24326f}">
+      <Declaration><![CDATA[METHOD TestPromiseTryGetEntityTo
+VAR
+	promise : Promise;
+	value : T_MAXSTRING := 'myTest';
+	getResult : BOOL;
+	actualResult : T_MAXSTRING;
+	expectedResult : T_MAXSTRING := 'myTest';
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseTryGetEntityTo');
+
+promise.Ctx.TrySetEntity('myString',value);
+getResult := promise.Ctx.TryGetEntityTo('myString',ADR(actualResult),SIZEOF(actualResult));
+
+AssertTrue(
+	Condition := getResult,
+	Message := 'Unable to return the context entity'
+);
+
+AssertEquals(
+	Expected := actualResult,
+	Actual := expectedResult,
+	Message := 'Incorrect returned entity from the context'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseTryGetResult" Id="{21daf999-3657-49ed-8f99-331253b77b26}">
+      <Declaration><![CDATA[METHOD TestPromiseTryGetResult
+VAR
+	promise : Promise;
+	value : INT := 123;
+	pendingResult : BOOL;
+	resolvedResult : BOOL;
+	rejectedResult : BOOL;
+	rejectedReason : T_MAXSTRING;
+	expectedReson : T_MAXSTRING := '';
+	tryGetResult : BOOL;
+	actualResult : INT;
+	expectedResult : INT := 123;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseTryGetResult');
+
+promise.Ctx.ResolveWith(value);
+
+pendingResult := promise.Pending;
+resolvedResult := promise.Resolved;
+rejectedResult := promise.Rejected;
+rejectedReason := promise.RejectedReason;
+
+tryGetResult := promise.TryGetResult(actualResult);
+
+AssertFalse(
+	Condition := pendingResult,
+	Message := 'Incorrect state of Pending'
+);
+
+AssertTrue(
+	Condition := resolvedResult,
+	Message := 'Incorrect state of Resolved'
+);
+
+AssertFalse(
+	Condition := rejectedResult,
+	Message := 'Incorrect state of Rejected'
+);
+
+AssertTrue(
+	Condition := tryGetResult,
+	Message := 'Unable to get result'
+);
+
+AssertEquals(
+	Expected := expectedReson,
+	Actual := rejectedReason,
+	Message := 'Incorrect reject reason'
+);
+
+AssertEquals(
+	Expected := actualResult,
+	Actual := expectedResult,
+	Message := 'Incorrect returned result'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseTryGetResultTo" Id="{31f59e78-3d75-4218-bfc1-4ba549cb9d17}">
+      <Declaration><![CDATA[METHOD TestPromiseTryGetResultTo
+VAR
+	promise : Promise;
+	value : INT := 123;
+	pendingResult : BOOL;
+	resolvedResult : BOOL;
+	rejectedResult : BOOL;
+	rejectedReason : T_MAXSTRING;
+	expectedReson : T_MAXSTRING := '';
+	tryGetResult : BOOL;
+	actualResult : INT;
+	expectedResult : INT := 123;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseTryGetResultTo');
+
+promise.Ctx.ResolveWith(value);
+
+pendingResult := promise.Pending;
+resolvedResult := promise.Resolved;
+rejectedResult := promise.Rejected;
+rejectedReason := promise.RejectedReason;
+
+tryGetResult := promise.TryGetResultTo(ADR(actualResult),SIZEOF(actualResult));
+
+AssertFalse(
+	Condition := pendingResult,
+	Message := 'Incorrect state of Pending'
+);
+
+AssertTrue(
+	Condition := resolvedResult,
+	Message := 'Incorrect state of Resolved'
+);
+
+AssertFalse(
+	Condition := rejectedResult,
+	Message := 'Incorrect state of Rejected'
+);
+
+AssertTrue(
+	Condition := tryGetResult,
+	Message := 'Unable to get result'
+);
+
+AssertEquals(
+	Expected := expectedReson,
+	Actual := rejectedReason,
+	Message := 'Incorrect reject reason'
+);
+
+AssertEquals(
+	Expected := actualResult,
+	Actual := expectedResult,
+	Message := 'Incorrect returned result'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TestPromiseTrySetEntity" Id="{6c180a0e-6d39-493b-9d94-79a63fa7f8fc}">
+      <Declaration><![CDATA[METHOD TestPromiseTrySetEntity
+VAR
+	promise : Promise;
+	value : INT := 123;
+	actualResult : INT;
+	expectedResult : INT := 123;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TEST('TestPromiseTrySetEntity');
+
+promise.Ctx.TrySetEntity('myNumber',value);
+promise.Ctx.TryGetEntity('myNumber',actualResult);
+
+AssertEquals(
+	Expected := actualResult,
+	Actual := expectedResult,
+	Message := 'Incorrect returned entity from the context'
+);
+
+TEST_FINISHED();
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

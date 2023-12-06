@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_Promise" Id="{3e582518-1984-4843-b9b7-2d5711cfb1cb}">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+INTERFACE I_Promise EXTENDS I_Disposable]]></Declaration>
+    <Property Name="Pending" Id="{43dd3de7-ce1f-4b21-978a-6a092a29fd10}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Pending : BOOL]]></Declaration>
+      <Get Name="Get" Id="{638c389b-e131-4351-86f8-e0e17a360586}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Rejected" Id="{9b439ec0-08d3-44f7-a892-c33fea1fcf22}">
+      <Declaration><![CDATA[PROPERTY Rejected : BOOL]]></Declaration>
+      <Get Name="Get" Id="{04f9b288-cc13-4511-a176-b5c9c7cfd4a3}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="RejectedReason" Id="{94c10e04-c7ad-490d-bad0-f95530f617e0}">
+      <Declaration><![CDATA[PROPERTY RejectedReason : T_MAXSTRING]]></Declaration>
+      <Get Name="Get" Id="{b263a231-b068-4f6c-8589-79cfb92c7671}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Resolved" Id="{72be7fb0-0e2f-40a6-af76-bf03a1c6832c}">
+      <Declaration><![CDATA[PROPERTY Resolved : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f9313841-2228-4e2c-bdd0-7602ce8bf917}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="TryGetResult" Id="{695003a5-c57b-4518-865d-34b500a7f7ec}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResult : BOOL
+VAR_INPUT
+	Destination : ANY;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryGetResultTo" Id="{d36335ef-6fc3-4fbd-a4bd-a483af790b04}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResultTo : BOOL
+VAR_INPUT
+	DestinationAddress : PVOID;
+	DestinationSize : UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

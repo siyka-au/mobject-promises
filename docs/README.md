@@ -1,12 +1,14 @@
 <p align="center">
-  <img width="460" src="./images/logo.svg">
+  <picture>
+    <img class="top-logo" alt="mobject main logo" src='./images/logo-light.svg'>
+  </picture>
 </p>
 
 > A framework and guide for writing object oriented programs in structured text.
 
 ## The mobject-promises Library
 
-This is one of the many libraries of mobject. This library focuses on all things related to asynchronous operations and their eventual completion (or failure) with values.
+This is one of the many libraries of [mobject](http://mobject.org). This library focuses on all things related to asynchronous operations and their eventual completion (or failure) with values.
 
 ## What is mobject?
 

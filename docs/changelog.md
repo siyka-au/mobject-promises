@@ -1,5 +1,5 @@
 # Changelog
 
-## 0.0.0
+## v0.1.0-alpha
 
 - Alpha release

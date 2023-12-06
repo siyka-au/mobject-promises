@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Promise" Id="{03f37619-5178-475e-a9f8-676071412171}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK Promise EXTENDS Disposable IMPLEMENTS I_Promise
+VAR
+	context : PromiseContext;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Ctx" Id="{d99e08bb-f6d7-481a-b8d4-3d55da41d317}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Ctx : I_PromiseContext]]></Declaration>
+      <Get Name="Get" Id="{918dbfb4-df26-400e-8685-a4e46781d6d9}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Ctx := context;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Pending" Id="{dc75c018-e00f-4422-9140-9bcf7c1277fd}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Pending : BOOL]]></Declaration>
+      <Get Name="Get" Id="{204e0cfa-0241-4c1d-835a-6a3c59935bc4}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Pending := context.Pending;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Rejected" Id="{c56b3631-f2a9-4af7-8b2b-35078f245833}">
+      <Declaration><![CDATA[PROPERTY Rejected : BOOL]]></Declaration>
+      <Get Name="Get" Id="{86bc78af-a066-497b-810b-8a0910718fb6}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Rejected := context.Rejected;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="RejectedReason" Id="{be210ed0-dbf1-4088-893e-3ed986b72f13}">
+      <Declaration><![CDATA[PROPERTY RejectedReason : T_MAXSTRING]]></Declaration>
+      <Get Name="Get" Id="{c5e08e5b-a914-4aa9-a0e9-a821e31a9ef2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[RejectedReason := context.RejectedReason;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Resolved" Id="{10e6266d-e498-41b8-87e3-34372768f2e0}">
+      <Declaration><![CDATA[PROPERTY Resolved : BOOL]]></Declaration>
+      <Get Name="Get" Id="{114c3428-4438-44f0-a7c0-fc9fc89ccdd2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Resolved := context.Resolved;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="TryGetResult" Id="{729c3634-87d6-440e-bf59-06cb9e843967}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResult : BOOL
+VAR_INPUT
+	Destination : ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGetResult := context.TryGetResult(Destination);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetResultTo" Id="{f332e9b6-bb5b-49c8-8390-c2fb5200ec9c}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResultTo : BOOL
+VAR_INPUT
+	DestinationAddress : PVOID;
+	DestinationSize : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGetResultTo := context.TryGetResultTo(DestinationAddress,DestinationSize);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

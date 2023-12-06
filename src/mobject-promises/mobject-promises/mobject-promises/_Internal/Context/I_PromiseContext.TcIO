@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Itf Name="I_PromiseContext" Id="{ac6c8482-60f6-4d24-803f-071e8ab643bb}">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+INTERFACE I_PromiseContext]]></Declaration>
+    <Method Name="Reject" Id="{0b79950d-7e9e-41f6-a877-3005abe5e686}">
+      <Declaration><![CDATA[METHOD PUBLIC Reject
+VAR_INPUT
+	Reason : T_MAXSTRING;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="Resolve" Id="{0ddc6a64-376f-4da1-b1fc-4ee93fa62f61}">
+      <Declaration><![CDATA[METHOD PUBLIC Resolve
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="ResolveWith" Id="{565da8d7-902a-4c61-9c04-96db233562a2}">
+      <Declaration><![CDATA[METHOD PUBLIC ResolveWith
+VAR_INPUT
+	Value : ANY;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryGetEntity" Id="{d468ed09-b31e-4279-af65-3e47e517028a}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetEntity : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	Destination	: ANY;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TryGetEntityTo" Id="{bdf8d47b-dd1a-44ff-b6e1-ca362b20f84c}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetEntityTo : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	DestinationAddress : PVOID;
+	DestinationSize : UDINT;
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="TrySetEntity" Id="{7edba61f-afac-4a0d-acfc-d6dbf60d35c2}">
+      <Declaration><![CDATA[METHOD PUBLIC TrySetEntity : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	Value : ANY;
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

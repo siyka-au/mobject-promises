@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.42">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.53">
 	<Project ProjectGUID="{5D7BEF4B-0586-4615-8003-3C889F785707}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<Plc>
 			<Project GUID="{A4A3FA01-9373-4368-849F-4CC438925591}" Name="mobject-promises" PrjFilePath="mobject-promises\mobject-promises.plcproj" TmcFilePath="mobject-promises\mobject-promises.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e"/>

@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="PromiseContext" Id="{75de2a15-307e-435d-83d9-7a9c6fc0aa6b}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'linkalways'} 
+{attribute 'no_explicit_call' := 'This FB is a CLASS and must be accessed using methods or properties'}
+{attribute 'enable_dynamic_creation'}
+FUNCTION_BLOCK PromiseContext IMPLEMENTS I_PromiseContext
+VAR
+	state : (PROMISE_PENDING, PROMISE_REJECTED, PROMISE_RESOLVED);
+	reason : T_MAXSTRING;
+	entities : Dictionary;
+	pBuffer : POINTER TO BYTE;
+	bufferSize : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Destructor" Id="{3206c6d1-73ba-4bcb-9573-ef49dfe35813}" />
+    <Folder Name="Private" Id="{2aeb644b-aaad-4298-8cfb-e5854fe0a558}" />
+    <Method Name="CopyBufferToDestination" Id="{643053a8-761b-44b6-b0e6-941cdfc54020}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE CopyBufferToDestination
+VAR_INPUT
+	DestinationAddress : PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MEMCPY(DestinationAddress, pBuffer, bufferSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CopySourceToBuffer" Id="{18d0ddd0-a56f-44a7-8313-4f7aac18c40f}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE CopySourceToBuffer
+VAR_INPUT
+	SourceAddress : PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[MEMCPY(pBuffer, SourceAddress, bufferSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CreateBuffer" Id="{d1c0e31e-bcae-46c4-a6b3-a9a2c7832b79}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE CreateBuffer
+VAR_INPUT
+	SizeInBytes : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bufferSize := SizeInBytes;
+pBuffer := __NEW(BYTE, SizeInBytes);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="DestroyBuffer" Id="{18a4e6b2-a240-42cc-907a-6394e5a913fc}" FolderPath="Private\">
+      <Declaration><![CDATA[METHOD PRIVATE DestroyBuffer
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF pBuffer = 0 THEN
+	RETURN;
+END_IF
+
+__DELETE(pBuffer);
+bufferSize := 0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{ed9e31bb-5056-4c6e-aecd-e284355dc15c}" FolderPath="Destructor\">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF bInCopyCode THEN
+	RETURN;
+END_IF
+
+DestroyBuffer();]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Pending" Id="{3e6c5105-de16-4dc6-9419-c281f6072c9e}">
+      <Declaration><![CDATA[PROPERTY PUBLIC Pending : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c8bcd943-4822-4043-8555-5d3c366f5060}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Pending := state = PROMISE_PENDING;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Reject" Id="{3005d554-6d2b-4118-bbde-742e87e3e26b}">
+      <Declaration><![CDATA[METHOD PUBLIC Reject
+VAR_INPUT
+	Reason : T_MAXSTRING;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Pending THEN
+	RETURN;
+END_IF
+
+THIS^.reason := Reason;
+state := PROMISE_REJECTED;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Rejected" Id="{19b6e227-f6bc-4e54-bb57-3ef321fea3ee}">
+      <Declaration><![CDATA[PROPERTY Rejected : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a2e9ead9-bf2b-4df8-85d9-9300605aee90}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Rejected := state = PROMISE_REJECTED;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="RejectedReason" Id="{54ee7955-fd3c-48fe-8732-72512e9a1ff9}">
+      <Declaration><![CDATA[PROPERTY RejectedReason : T_MAXSTRING]]></Declaration>
+      <Get Name="Get" Id="{f4b08042-2a5e-4864-8192-66c3e2b97f00}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[RejectedReason := reason;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Resolve" Id="{a6b23446-da8d-43df-9791-1e09c13c9a89}">
+      <Declaration><![CDATA[METHOD PUBLIC Resolve
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Pending THEN
+	RETURN;
+END_IF
+
+state := PROMISE_RESOLVED;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Resolved" Id="{d82e39ea-5d83-4fc9-8332-fb4bab329fd2}">
+      <Declaration><![CDATA[PROPERTY Resolved : BOOL]]></Declaration>
+      <Get Name="Get" Id="{f80a32f1-777d-40d0-807b-86ea3f5a0bc8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Resolved := state = PROMISE_RESOLVED;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="ResolveWith" Id="{16016f5e-a90b-4a96-bfdf-2b6d1e39081f}">
+      <Declaration><![CDATA[METHOD PUBLIC ResolveWith
+VAR_INPUT
+	Value : ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Pending THEN
+	RETURN;
+END_IF
+
+state := PROMISE_RESOLVED;
+CreateBuffer(DINT_TO_UDINT(Value.diSize));
+CopySourceToBuffer(Value.pValue);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetEntity" Id="{88900e9e-b119-4bf3-8c3f-0fad1d1aedb0}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetEntity : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	Destination	: ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGetEntity := entities.TryGetValue(Key, Destination);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetEntityTo" Id="{24758a8f-073d-4e7a-92dc-9315e7ebb72c}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetEntityTo : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	DestinationAddress : PVOID;
+	DestinationSize : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TryGetEntityTo := entities.TryGetValueTo(Key, DestinationAddress, DestinationSize);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetResult" Id="{cec1d925-83de-40ec-acf7-c0fa197cb481}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResult : BOOL
+VAR_INPUT
+	Destination : ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Resolved THEN
+	RETURN;
+END_IF
+
+TryGetResult := TryGetResultTo(Destination.pValue, DINT_TO_UDINT(Destination.diSize));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TryGetResultTo" Id="{ebc6e9b1-9d29-4747-b08d-763392ba9d46}">
+      <Declaration><![CDATA[METHOD PUBLIC TryGetResultTo : BOOL
+VAR_INPUT
+	DestinationAddress : PVOID;
+	DestinationSize : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT Resolved THEN
+	RETURN;
+END_IF
+
+IF pBuffer = 0 THEN
+	RETURN;
+END_IF
+
+IF bufferSize <> DestinationSize THEN
+	RETURN;
+END_IF
+
+CopyBufferToDestination(DestinationAddress);
+TryGetResultTo := TRUE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TrySetEntity" Id="{b791e364-d050-4f57-8a23-0d598e9a6c10}">
+      <Declaration><![CDATA[METHOD PUBLIC TrySetEntity : BOOL
+VAR_INPUT
+	Key : T_MAXSTRING;
+	Value : ANY;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[TrySetEntity := entities.TryAdd(Key, Value);]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
