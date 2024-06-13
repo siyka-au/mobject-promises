@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4026.6">
   <POU Name="Promise_TestSuite" Id="{617144c1-3d39-4f64-af23-c9b6dd4ec3be}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK Promise_TestSuite EXTENDS TcUnit.FB_TestSuite
 VAR

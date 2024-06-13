@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <Itf Name="I_PromiseContext" Id="{ac6c8482-60f6-4d24-803f-071e8ab643bb}">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 INTERFACE I_PromiseContext]]></Declaration>

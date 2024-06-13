@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+<TcPlcObject Version="1.1.0.1">
   <Itf Name="I_Promise" Id="{3e582518-1984-4843-b9b7-2d5711cfb1cb}">
     <Declaration><![CDATA[{attribute 'linkalways'} 
 INTERFACE I_Promise EXTENDS I_Disposable]]></Declaration>
